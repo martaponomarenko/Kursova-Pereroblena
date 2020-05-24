@@ -1,0 +1,80 @@
+# 1)Показати всіх працівників салону;
+SELECT * from workers;
+
+#2)Показати всіх працівників саланоу, які старші за 30років;
+select * from workers where age >30;
+
+#3)Показати імя  і телефон адміністраторів і директора салону
+select  FirstName, phone, Position from workers where Position ='administrator' or Position='director';
+
+#4) Показати перших 10 клієнтів по алфафіну
+select * from  clients order by Name asc limit 10;
+
+#5)Показати клієнта чий номер закінчується на 15
+select *from clients where Phone like '%15';
+
+#6)Показати імя номер телефону  працівників:  Oksana Gutsiv, Natalia Steslavska
+select FirstName, phone from workers
+    where FirstName like 'Oksana'and LastName like 'Gutsiv'
+        or FirstName like 'Natalia'and LastName like 'Steslavska';
+
+#7)показати ті послуги і ціни на них, які коштуюте дороще 500;
+select Name, praise from services where praise > 500;
+
+#8)Показати всі послуги які коштують дороще 600 і дешевше 900
+select Name, praise from services where praise between 600 and 900;
+
+#9) Порахувати яка загальна сума всіх послуг салону;
+select  Sum(praise) from services ;
+
+#10) Показати найдорощу послугу салону
+select Name, Max(praise) from services;
+
+#11) Показати всіх працівників які мають з/п більше 26000
+select FirstName, Position  from workers join salary  s on workers.id = s.id
+    where `size salary`>26000
+        group by FirstName, Position;
+
+#12) Показати 5 наймолодших працівників салону
+select * from workers
+    group by FirstName
+        order by min(Age)
+            limit 5;
+
+#13) Показати інформацію про замовлення
+select * from orders join clients c on orders.id = c.id
+                    join services s on orders.`order` = s.id
+group by orders.id;
+
+#14) Показати інформацію про замовлення на суму більшу рівну 600
+select * from orders join clients c on orders.id = c.id
+                    join services s on orders.`order` = s.id
+         where praise >= 600
+            group by orders.id ;
+
+#15) Показати всі послуги салону від найдорощї до найдешевшої
+select * from services
+    group by id
+    order by min(praise) desc ;
+	
+#16  Показати всіх правцівників, які є майстрами манікюру
+SELECT * from workers 
+where Position like 'manicurist';
+
+
+#17 Показати скільки заробляють жіночі перукарі
+select *from workers join salary s on workers.id = s.id 
+where Position like 'female hairdresser';
+
+#18 Збільшити заробітну плату на 10%
+update  salary
+set size salary = `size salary`+ 10% 
+where id='1,2,3,4,5,6,7,8,9,10';
+
+#19 Збільшити ціну послуги макіяж на 5%
+update services
+ set praise = praise+5% 
+ where Name like 'make-up';
+
+
+
